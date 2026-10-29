@@ -5,6 +5,9 @@
 var RskLic = (function () {
   "use strict";
 
+  // A 1ª linha do .lic é só título (não é assinada nem conferida). O texto assinado continua
+  // "RskAlign-licenca-v1": vale no RSK Align instalado hoje e no RSK Tools, que o substitui.
+
   // Chave PÚBLICA do plug-in (src/Licensing/License.cs, PublicModulus). Serve para conferir que a
   // chave importada é a certa e que cada licença emitida passa na verificação do plug-in.
   var PUBLIC_MODULUS =
@@ -119,7 +122,7 @@ var RskLic = (function () {
   }
 
   function toText(lic) {
-    return "RSK Align - licença de uso (não edite: qualquer alteração invalida o arquivo)\r\n" +
+    return "RSK Tools - licença de uso (não edite: qualquer alteração invalida o arquivo)\r\n" +
       "Cliente=" + lic.customer.trim() + "\r\n" +
       "Maquina=" + normalizeMachine(lic.machine) + "\r\n" +
       "Emitida=" + ymd(lic.issued) + "\r\n" +
