@@ -28,3 +28,7 @@ Nome, código da máquina (o usuário obtém com `RskLicense → CopiarCodigo`),
 - `sw.js`, `manifest.webmanifest`, ícones — app de Tela de Início e uso sem internet
 
 Se a chave do plug-in for trocada, atualizar `PUBLIC_MODULUS` em `lic.js`.
+
+## Continuar o trabalho
+
+Situação atual, decisões e próximos passos: [CLAUDE.md](CLAUDE.md).
