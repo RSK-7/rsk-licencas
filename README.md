@@ -1,6 +1,6 @@
-# RSK Licenças
+# RSK Tools — Licenças
 
-Emissor de licenças do plug-in **RSK Align** (Rhino), para usar no celular ou no navegador.
+Emissor de licenças do plug-in **RSK Tools** (Rhino; o RSK Align é uma das ferramentas dele), para usar no celular ou no navegador.
 Gera o mesmo arquivo `.lic` que o `RskLicenseTool`.
 
 **Este repositório não contém chave privada.** A chave é importada em cada aparelho, fica guardada
@@ -10,8 +10,8 @@ só nele e cifrada com senha (PBKDF2-SHA256 + AES-GCM). A assinatura acontece no
 
 1. **No PC:** abrir a página → *Chave de emissão → Importar chave…* → escolher
    `%USERPROFILE%\RskAlign-Licencas\chave-privada.xml` → criar uma senha.
-   Depois *Exportar para outro aparelho* → salva `RskAlign.rskkey` (cifrado).
-2. Mandar o `RskAlign.rskkey` para você mesmo (iCloud Drive, e-mail, WhatsApp).
+   Depois *Exportar para outro aparelho* → salva `RskTools.rskkey` (cifrado).
+2. Mandar o `RskTools.rskkey` para você mesmo (iCloud Drive, e-mail, WhatsApp).
    **Nunca** mande o `chave-privada.xml`.
 3. **No iPhone:** abrir a página no Safari → *Compartilhar → Adicionar à Tela de Início*.
    Abrir pelo ícone e então *Importar chave…* → escolher o `.rskkey` → digitar a senha.

@@ -1,5 +1,5 @@
 // Funciona sem internet: busca a versão nova quando há rede e cai na cópia guardada quando não há.
-var CACHE = "rsk-licencas-v1";
+var CACHE = "rsk-licencas-v2";
 var FILES = ["./", "index.html", "lic.js", "manifest.webmanifest", "icon-180.png", "icon-512.png"];
 
 self.addEventListener("install", function (e) {

@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>RSK Licenças</title>
-<meta name="description" content="Emissor de licenças do plug-in RSK Align para Rhino.">
+<title>RSK Tools Licenças</title>
+<meta name="description" content="Emissor de licenças do plug-in RSK Tools para Rhino.">
 <meta name="robots" content="noindex">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="RSK Licenças">
+<meta name="apple-mobile-web-app-title" content="RSK Tools">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#1d3a5f">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -107,8 +107,8 @@
 <body>
 <main>
   <header>
-    <h1>RSK Licenças</h1>
-    <p>Emissor de licenças do RSK Align</p>
+    <h1>RSK Tools</h1>
+    <p>Emissor de licenças</p>
   </header>
 
   <div id="iosHint" class="msg warn hidden">
@@ -240,7 +240,7 @@
   function refreshKey() {
     var has = !!load(KEY_STORE, null);
     $("keyDot").className = "dot" + (has ? " on" : "");
-    $("keyStatus").textContent = has ? "Chave instalada neste aparelho (confere com o RSK Align)." : "Nenhuma chave neste aparelho. Importe para poder emitir.";
+    $("keyStatus").textContent = has ? "Chave instalada neste aparelho (confere com o RSK Tools)." : "Nenhuma chave neste aparelho. Importe para poder emitir.";
     $("exportBtn").disabled = $("removeBtn").disabled = !has;
     $("issueBtn").disabled = !has || !RskLic.available;
     if (!has) $("keyDetails").open = true;
@@ -336,7 +336,7 @@
 
   $("shareBtn").addEventListener("click", function () {
     if (!current) return;
-    shareFile(RskLic.fileName(current), RskLic.toText(current), "Licença RSK Align")
+    shareFile(RskLic.fileName(current), RskLic.toText(current), "Licença RSK Tools")
       .catch(function (e) { show($("resultMsg"), "Não foi possível enviar: " + e.message, "err"); });
   });
   $("downloadBtn").addEventListener("click", function () {
@@ -394,7 +394,7 @@
     f.text().then(function (text) {
       if (text.indexOf("<RSAKeyValue") >= 0) {
         var jwk = RskLic.xmlToJwk(text);
-        if (!RskLic.matchesPlugin(jwk)) throw new Error("esta chave não é a do RSK Align (não confere com a chave pública do plug-in).");
+        if (!RskLic.matchesPlugin(jwk)) throw new Error("esta chave não é a do RSK Tools (não confere com a chave pública do plug-in).");
         pending = { kind: "xml", jwk: jwk };
         $("importPassLabel").textContent = "Crie uma senha para guardar a chave";
         $("importPass2Field").classList.remove("hidden");
@@ -427,7 +427,7 @@
     } else {
       var blob = pending.blob;
       work = RskLic.decryptKey(blob, pass).then(function (jwk) {
-        if (!RskLic.matchesPlugin(jwk)) throw new Error("esta chave não é a do RSK Align.");
+        if (!RskLic.matchesPlugin(jwk)) throw new Error("esta chave não é a do RSK Tools.");
         return blob;
       });
     }
@@ -450,7 +450,7 @@
     if (!blob) return;
     var text = JSON.stringify(blob, null, 1);
     var touch = navigator.maxTouchPoints > 0;
-    (touch ? shareFile("RskAlign.rskkey", text, "Chave RSK Align (cifrada)") : (download("RskAlign.rskkey", text), Promise.resolve()))
+    (touch ? shareFile("RskTools.rskkey", text, "Chave RSK Tools (cifrada)") : (download("RskTools.rskkey", text), Promise.resolve()))
       .then(function () {
         show($("keyMsg"), "Arquivo .rskkey gerado. Ele está cifrado com a sua senha; abra este app no outro aparelho e use Importar.", "ok");
       });

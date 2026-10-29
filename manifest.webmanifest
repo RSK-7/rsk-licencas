@@ -1,7 +1,7 @@
 {
-  "name": "RSK Licenças",
-  "short_name": "RSK Licenças",
-  "description": "Emissor de licenças do RSK Align",
+  "name": "RSK Tools Licenças",
+  "short_name": "RSK Tools",
+  "description": "Emissor de licenças do RSK Tools",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

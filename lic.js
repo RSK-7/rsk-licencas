@@ -1,4 +1,4 @@
-// Núcleo do emissor de licenças do RSK Align, no navegador.
+// Núcleo do emissor de licenças do RSK Tools (ferramentas RSK para Rhino, entre elas o RSK Align), no navegador.
 // Gera o mesmo .lic que tools/RskLicenseTool (LicenseFile.cs): mesmo texto assinado, RSA 2048,
 // SHA-256, PKCS#1 v1.5. A chave privada nunca sai do aparelho e fica guardada cifrada com senha
 // (PBKDF2-SHA256 + AES-GCM). Este arquivo não contém chave privada nenhuma.
