@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RSK Licenças</title>
+<meta name="description" content="Emissor de licenças do plug-in RSK Align para Rhino.">
+<meta name="robots" content="noindex">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RSK Licenças">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#1d3a5f">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  :root {
+    --bg: #f3f5f8; --card: #ffffff; --text: #18202b; --muted: #5d6b7c; --line: #dde3ea;
+    --accent: #1d3a5f; --accent-text: #ffffff; --accent-soft: #e4ecf6;
+    --ok: #1d7a46; --ok-soft: #e3f4ea; --err: #b3261e; --err-soft: #fbe9e7; --warn-soft: #fff4d6; --warn: #7a5a00;
+    --input: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f141a; --card: #18202a; --text: #e6ebf1; --muted: #93a1b2; --line: #2a3542;
+      --accent: #6fa3e0; --accent-text: #0b1420; --accent-soft: #1f2e40;
+      --ok: #6fd39b; --ok-soft: #173326; --err: #ff8a80; --err-soft: #3a1c1a; --warn-soft: #3a3014; --warn: #f0cf72;
+      --input: #111820;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f141a; --card: #18202a; --text: #e6ebf1; --muted: #93a1b2; --line: #2a3542;
+    --accent: #6fa3e0; --accent-text: #0b1420; --accent-soft: #1f2e40;
+    --ok: #6fd39b; --ok-soft: #173326; --err: #ff8a80; --err-soft: #3a1c1a; --warn-soft: #3a3014; --warn: #f0cf72;
+    --input: #111820;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: env(safe-area-inset-top) 0 calc(24px + env(safe-area-inset-bottom));
+  }
+  main { max-width: 560px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 20px 0 12px; }
+  h1 { font-size: 24px; margin: 0; letter-spacing: -0.01em; }
+  header p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 12px; font-weight: 600; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin: 0 0 14px; }
+  label { display: block; font-size: 14px; font-weight: 600; margin: 0 0 6px; }
+  .field { margin: 0 0 14px; }
+  input[type=text], input[type=password], input[type=number] {
+    width: 100%; font: inherit; font-size: 17px; color: var(--text); background: var(--input);
+    border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; -webkit-appearance: none; appearance: none;
+  }
+  input:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+  .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; letter-spacing: 0.06em; }
+  .hint { font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font: inherit; font-size: 15px; border: 1px solid var(--line); background: var(--input); color: var(--text);
+    border-radius: 999px; padding: 7px 14px; cursor: pointer;
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  .chip-days { width: 92px; padding: 7px 10px; font-size: 15px; border-radius: 999px; }
+  button.primary, button.secondary {
+    font: inherit; font-weight: 600; border-radius: 12px; padding: 13px 16px; width: 100%; cursor: pointer; border: 1px solid transparent;
+  }
+  button.primary { background: var(--accent); color: var(--accent-text); }
+  button.secondary { background: var(--accent-soft); color: var(--text); border-color: var(--line); }
+  button:disabled { opacity: 0.55; cursor: default; }
+  .row { display: flex; gap: 10px; }
+  .row > * { flex: 1; }
+  .stack > * + * { margin-top: 10px; }
+  .msg { border-radius: 10px; padding: 10px 12px; font-size: 15px; margin: 12px 0 0; }
+  .msg.ok { background: var(--ok-soft); color: var(--ok); }
+  .msg.err { background: var(--err-soft); color: var(--err); }
+  .msg.warn { background: var(--warn-soft); color: var(--warn); margin: 0 0 14px; }
+  .status { display: flex; align-items: center; gap: 8px; font-size: 15px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--err); flex: none; }
+  .dot.on { background: var(--ok); }
+  pre {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12px; white-space: pre-wrap; word-break: break-all;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px; margin: 12px 0 0; max-height: 180px; overflow: auto;
+  }
+  .summary { font-size: 15px; }
+  .summary b { font-weight: 600; }
+  ul.history { list-style: none; margin: 0; padding: 0; }
+  ul.history li { border-top: 1px solid var(--line); }
+  ul.history li:first-child { border-top: 0; }
+  ul.history button {
+    all: unset; display: block; width: 100%; padding: 10px 2px; cursor: pointer; box-sizing: border-box;
+  }
+  .h-name { font-weight: 600; font-size: 15px; }
+  .h-meta { font-size: 13px; color: var(--muted); }
+  .expired { color: var(--err); }
+  details summary { cursor: pointer; font-weight: 600; font-size: 15px; list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after { content: " ›"; color: var(--muted); }
+  details[open] summary::after { content: " ⌄"; }
+  details .stack { margin-top: 12px; }
+  .hidden { display: none !important; }
+  .empty { color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>RSK Licenças</h1>
+    <p>Emissor de licenças do RSK Align</p>
+  </header>
+
+  <div id="iosHint" class="msg warn hidden">
+    No iPhone, use pelo ícone da Tela de Início: toque em <b>Compartilhar → Adicionar à Tela de Início</b> e abra por lá
+    <b>antes</b> de importar a chave. O app da Tela de Início guarda os dados separado do Safari.
+  </div>
+  <div id="noCrypto" class="msg err hidden" style="margin:0 0 14px">
+    Este navegador não oferece a criptografia necessária. Abra pelo endereço https:// no Safari, Chrome ou Edge.
+  </div>
+
+  <!-- Emitir -->
+  <section class="card" id="issueCard">
+    <h2>Emitir licença</h2>
+    <div class="field">
+      <label for="customer">Cliente / estação</label>
+      <input type="text" id="customer" autocomplete="off" placeholder="Ex.: RSK - Estação 3">
+    </div>
+    <div class="field">
+      <label for="machine">Código da máquina</label>
+      <input type="text" id="machine" class="mono" autocomplete="off" autocorrect="off" autocapitalize="characters"
+             spellcheck="false" inputmode="text" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19">
+      <p class="hint">O usuário obtém no Rhino com <b>RskLicense → CopiarCodigo</b>.</p>
+    </div>
+    <div class="field">
+      <label>Validade</label>
+      <div class="chips" id="dayChips">
+        <button type="button" class="chip" data-days="30">30 dias</button>
+        <button type="button" class="chip" data-days="90">90 dias</button>
+        <button type="button" class="chip" data-days="180">6 meses</button>
+        <button type="button" class="chip" data-days="365">1 ano</button>
+        <button type="button" class="chip" data-days="730">2 anos</button>
+        <input type="number" id="customDays" class="chip-days" min="1" max="3650" inputmode="numeric" placeholder="dias" aria-label="Outro número de dias">
+      </div>
+      <p class="hint" id="expiresHint"></p>
+    </div>
+    <div class="field">
+      <label for="issuePass">Senha da chave</label>
+      <input type="password" id="issuePass" autocomplete="current-password">
+    </div>
+    <button type="button" class="primary" id="issueBtn">Emitir licença</button>
+    <div id="issueMsg" class="msg hidden"></div>
+  </section>
+
+  <!-- Resultado -->
+  <section class="card hidden" id="resultCard">
+    <h2>Licença pronta</h2>
+    <div class="summary" id="resultSummary"></div>
+    <div class="stack" style="margin-top:14px">
+      <button type="button" class="primary" id="shareBtn">Enviar arquivo .lic</button>
+      <div class="row">
+        <button type="button" class="secondary" id="copyBtn">Copiar texto</button>
+        <button type="button" class="secondary" id="downloadBtn">Baixar</button>
+      </div>
+    </div>
+    <p class="hint">No Rhino da outra máquina: <b>RskLicense → Instalar</b> e escolher o arquivo.</p>
+    <pre id="resultText"></pre>
+    <div id="resultMsg" class="msg hidden"></div>
+  </section>
+
+  <!-- Histórico -->
+  <section class="card">
+    <h2>Emitidas neste aparelho</h2>
+    <ul class="history" id="history"></ul>
+    <p class="hint">Toque numa linha para preencher nome e código (renovação).</p>
+  </section>
+
+  <!-- Chave -->
+  <section class="card">
+    <h2>Chave de emissão</h2>
+    <div class="status"><span class="dot" id="keyDot"></span><span id="keyStatus"></span></div>
+    <details id="keyDetails" style="margin-top:12px">
+      <summary id="keySummary">Gerenciar chave</summary>
+      <div class="stack">
+        <button type="button" class="secondary" id="importBtn">Importar chave…</button>
+        <p class="hint" style="margin:0">
+          Aceita o <b>chave-privada.xml</b> (no PC) ou um arquivo <b>.rskkey</b> exportado por este app.
+          Nunca mande o .xml pelo celular, e-mail ou WhatsApp: no PC, importe o .xml aqui e use
+          <b>Exportar</b> para gerar o .rskkey cifrado com senha.
+        </p>
+        <input type="file" id="importFile" class="hidden">
+        <div id="importForm" class="hidden stack">
+          <div class="field" style="margin:0">
+            <label for="importPass" id="importPassLabel">Senha</label>
+            <input type="password" id="importPass" autocomplete="new-password">
+          </div>
+          <div class="field hidden" id="importPass2Field" style="margin:0">
+            <label for="importPass2">Repita a senha</label>
+            <input type="password" id="importPass2" autocomplete="new-password">
+          </div>
+          <button type="button" class="primary" id="importConfirm">Guardar chave</button>
+        </div>
+        <button type="button" class="secondary" id="exportBtn">Exportar para outro aparelho (.rskkey)</button>
+        <button type="button" class="secondary" id="removeBtn">Remover chave deste aparelho</button>
+        <div id="keyMsg" class="msg hidden"></div>
+      </div>
+    </details>
+  </section>
+</main>
+
+<script src="lic.js"></script>
+<script>
+(function () {
+  "use strict";
+  var KEY_STORE = "rsk.chave", HIST_STORE = "rsk.historico";
+  function $(id) { return document.getElementById(id); }
+
+  // ---- armazenamento (pode falhar em navegação privada) ----
+  function load(name, fallback) {
+    try { var s = localStorage.getItem(name); return s ? JSON.parse(s) : fallback; } catch (e) { return fallback; }
+  }
+  function save(name, value) {
+    try { localStorage.setItem(name, JSON.stringify(value)); return true; } catch (e) { return false; }
+  }
+  function drop(name) { try { localStorage.removeItem(name); } catch (e) {} }
+
+  function show(el, text, kind) {
+    el.textContent = text;
+    el.className = "msg " + kind;
+  }
+  function hide(el) { el.className = "msg hidden"; }
+  function br(d) { return d.toLocaleDateString("pt-BR"); }
+
+  // ---- avisos de ambiente ----
+  var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (ios && !navigator.standalone) $("iosHint").classList.remove("hidden");
+  if (!RskLic.available) $("noCrypto").classList.remove("hidden");
+
+  // ---- estado da chave ----
+  function refreshKey() {
+    var has = !!load(KEY_STORE, null);
+    $("keyDot").className = "dot" + (has ? " on" : "");
+    $("keyStatus").textContent = has ? "Chave instalada neste aparelho (confere com o RSK Align)." : "Nenhuma chave neste aparelho. Importe para poder emitir.";
+    $("exportBtn").disabled = $("removeBtn").disabled = !has;
+    $("issueBtn").disabled = !has || !RskLic.available;
+    if (!has) $("keyDetails").open = true;
+  }
+
+  // ---- código da máquina: maiúsculas e traços automáticos ----
+  $("machine").addEventListener("input", function () {
+    var raw = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "").substring(0, 16);
+    this.value = raw.replace(/(.{4})(?=.)/g, "$1-");
+  });
+
+  // ---- validade ----
+  var days = 365;
+  function refreshDays() {
+    Array.prototype.forEach.call(document.querySelectorAll("#dayChips .chip[data-days]"), function (c) {
+      c.setAttribute("aria-pressed", String(+c.dataset.days === days && !$("customDays").value));
+    });
+    $("expiresHint").textContent = days > 0 ? "Válida até " + br(RskLic.addDays(RskLic.today(), days)) + "." : "Informe o número de dias.";
+  }
+  $("dayChips").addEventListener("click", function (e) {
+    var c = e.target.closest("[data-days]");
+    if (!c) return;
+    days = +c.dataset.days;
+    $("customDays").value = "";
+    refreshDays();
+  });
+  $("customDays").addEventListener("input", function () {
+    var n = parseInt(this.value, 10);
+    days = n > 0 && n <= 3650 ? n : (this.value ? 0 : 365);
+    refreshDays();
+  });
+
+  // ---- emitir ----
+  var current = null;
+  $("issueBtn").addEventListener("click", function () {
+    var msg = $("issueMsg");
+    var customer = $("customer").value.trim();
+    var machine = RskLic.normalizeMachine($("machine").value);
+    if (!customer) return show(msg, "Informe o cliente / estação.", "err");
+    if (!RskLic.validMachine(machine)) return show(msg, "Código da máquina inválido (formato XXXX-XXXX-XXXX-XXXX, sem 0, O, 1 ou I).", "err");
+    if (!(days > 0)) return show(msg, "Informe a validade em dias.", "err");
+    if (!$("issuePass").value) return show(msg, "Digite a senha da chave.", "err");
+
+    var btn = this;
+    btn.disabled = true;
+    show(msg, "Assinando…", "ok");
+    var today = RskLic.today();
+    var lic = { customer: customer, machine: machine, issued: today, expires: RskLic.addDays(today, days) };
+    RskLic.decryptKey(load(KEY_STORE, null), $("issuePass").value)
+      .then(function (jwk) { return RskLic.sign(jwk, lic); })
+      .then(function (l) {
+        current = l;
+        $("issuePass").value = "";
+        hide(msg);
+        showResult(l);
+        addHistory(l);
+      })
+      .catch(function (e) { show(msg, "Não foi possível emitir: " + e.message, "err"); })
+      .then(function () { btn.disabled = false; });
+  });
+
+  function showResult(l) {
+    var s = $("resultSummary");
+    s.textContent = "";
+    [["Cliente", l.customer], ["Máquina", l.machine], ["Válida até", br(l.expires)]].forEach(function (p, i) {
+      if (i) s.appendChild(document.createElement("br"));
+      var b = document.createElement("b"); b.textContent = p[0] + ": ";
+      s.appendChild(b); s.appendChild(document.createTextNode(p[1]));
+    });
+    $("resultText").textContent = RskLic.toText(l);
+    hide($("resultMsg"));
+    $("resultCard").classList.remove("hidden");
+    $("resultCard").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // ---- enviar / baixar ----
+  function download(name, text) {
+    var url = URL.createObjectURL(new Blob([text], { type: "application/octet-stream" }));
+    var a = document.createElement("a");
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+  }
+  function shareFile(name, text, title) {
+    var file = new File([text], name, { type: "application/octet-stream" });
+    if (navigator.canShare && navigator.canShare({ files: [file] }))
+      return navigator.share({ files: [file], title: title }).catch(function (e) {
+        if (e.name !== "AbortError") throw e;
+      });
+    download(name, text);
+    return Promise.resolve();
+  }
+
+  $("shareBtn").addEventListener("click", function () {
+    if (!current) return;
+    shareFile(RskLic.fileName(current), RskLic.toText(current), "Licença RSK Align")
+      .catch(function (e) { show($("resultMsg"), "Não foi possível enviar: " + e.message, "err"); });
+  });
+  $("downloadBtn").addEventListener("click", function () {
+    if (current) download(RskLic.fileName(current), RskLic.toText(current));
+  });
+  $("copyBtn").addEventListener("click", function () {
+    if (!current) return;
+    navigator.clipboard.writeText(RskLic.toText(current)).then(
+      function () { show($("resultMsg"), "Texto da licença copiado.", "ok"); },
+      function () { show($("resultMsg"), "Não foi possível copiar. Use “Enviar arquivo”.", "err"); });
+  });
+
+  // ---- histórico ----
+  function addHistory(l) {
+    var h = load(HIST_STORE, []);
+    h.unshift({ cliente: l.customer, maquina: l.machine, emitida: RskLic.ymd(l.issued), expira: RskLic.ymd(l.expires) });
+    save(HIST_STORE, h.slice(0, 200));
+    renderHistory();
+  }
+  function parseYmd(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function renderHistory() {
+    var ul = $("history"), h = load(HIST_STORE, []);
+    ul.textContent = "";
+    if (!h.length) {
+      var li = document.createElement("li");
+      li.className = "empty"; li.textContent = "Nenhuma ainda.";
+      ul.appendChild(li);
+      return;
+    }
+    var today = RskLic.today();
+    h.forEach(function (it) {
+      var li = document.createElement("li"), b = document.createElement("button");
+      var name = document.createElement("div"), meta = document.createElement("div");
+      var exp = parseYmd(it.expira);
+      name.className = "h-name"; name.textContent = it.cliente;
+      meta.className = "h-meta" + (exp < today ? " expired" : "");
+      meta.textContent = it.maquina + " · até " + br(exp) + (exp < today ? " (vencida)" : "");
+      b.type = "button";
+      b.appendChild(name); b.appendChild(meta);
+      b.addEventListener("click", function () {
+        $("customer").value = it.cliente;
+        $("machine").value = it.maquina;
+        $("issueCard").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      li.appendChild(b); ul.appendChild(li);
+    });
+  }
+
+  // ---- importar / exportar / remover chave ----
+  var pending = null;   // { kind: "xml", jwk } ou { kind: "rskkey", blob }
+  $("importBtn").addEventListener("click", function () { $("importFile").value = ""; $("importFile").click(); });
+  $("importFile").addEventListener("change", function () {
+    var f = this.files && this.files[0], msg = $("keyMsg");
+    if (!f) return;
+    f.text().then(function (text) {
+      if (text.indexOf("<RSAKeyValue") >= 0) {
+        var jwk = RskLic.xmlToJwk(text);
+        if (!RskLic.matchesPlugin(jwk)) throw new Error("esta chave não é a do RSK Align (não confere com a chave pública do plug-in).");
+        pending = { kind: "xml", jwk: jwk };
+        $("importPassLabel").textContent = "Crie uma senha para guardar a chave";
+        $("importPass2Field").classList.remove("hidden");
+      } else {
+        var blob = JSON.parse(text);
+        if (blob.formato !== "rskkey-v1") throw new Error("arquivo desconhecido.");
+        pending = { kind: "rskkey", blob: blob };
+        $("importPassLabel").textContent = "Senha do arquivo .rskkey";
+        $("importPass2Field").classList.add("hidden");
+      }
+      $("importPass").value = $("importPass2").value = "";
+      $("importForm").classList.remove("hidden");
+      hide(msg);
+      $("importPass").focus();
+    }).catch(function (e) {
+      pending = null;
+      $("importForm").classList.add("hidden");
+      show(msg, "Não foi possível ler a chave: " + (e instanceof SyntaxError ? "arquivo desconhecido." : e.message), "err");
+    });
+  });
+
+  $("importConfirm").addEventListener("click", function () {
+    var msg = $("keyMsg"), pass = $("importPass").value, btn = this;
+    if (!pending) return;
+    var work;
+    if (pending.kind === "xml") {
+      if (pass.length < 8) return show(msg, "Use uma senha de pelo menos 8 caracteres.", "err");
+      if (pass !== $("importPass2").value) return show(msg, "As senhas não são iguais.", "err");
+      work = RskLic.encryptKey(pending.jwk, pass);
+    } else {
+      var blob = pending.blob;
+      work = RskLic.decryptKey(blob, pass).then(function (jwk) {
+        if (!RskLic.matchesPlugin(jwk)) throw new Error("esta chave não é a do RSK Align.");
+        return blob;
+      });
+    }
+    btn.disabled = true;
+    show(msg, "Conferindo…", "ok");
+    work.then(function (blob) {
+      if (!save(KEY_STORE, blob)) throw new Error("o navegador não permitiu guardar (navegação privada?).");
+      pending = null;
+      $("importPass").value = $("importPass2").value = "";
+      $("importForm").classList.add("hidden");
+      refreshKey();
+      show(msg, "Chave guardada neste aparelho. Use a mesma senha para emitir.", "ok");
+    }).catch(function (e) {
+      show(msg, "Não foi possível guardar: " + e.message, "err");
+    }).then(function () { btn.disabled = false; });
+  });
+
+  $("exportBtn").addEventListener("click", function () {
+    var blob = load(KEY_STORE, null);
+    if (!blob) return;
+    var text = JSON.stringify(blob, null, 1);
+    var touch = navigator.maxTouchPoints > 0;
+    (touch ? shareFile("RskAlign.rskkey", text, "Chave RSK Align (cifrada)") : (download("RskAlign.rskkey", text), Promise.resolve()))
+      .then(function () {
+        show($("keyMsg"), "Arquivo .rskkey gerado. Ele está cifrado com a sua senha; abra este app no outro aparelho e use Importar.", "ok");
+      });
+  });
+
+  $("removeBtn").addEventListener("click", function () {
+    if (!confirm("Remover a chave deste aparelho? Para emitir de novo aqui será preciso importá-la outra vez.")) return;
+    drop(KEY_STORE);
+    refreshKey();
+    show($("keyMsg"), "Chave removida deste aparelho.", "ok");
+  });
+
+  refreshKey();
+  refreshDays();
+  renderHistory();
+
+  if ("serviceWorker" in navigator && location.protocol === "https:")
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+})();
+</script>
+</body>
+</html>

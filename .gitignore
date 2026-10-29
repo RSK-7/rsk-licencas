@@ -1,0 +1,6 @@
+# NUNCA versionar chaves ou licenças: este repositório é público.
+*.xml
+*.rskkey
+*.lic
+*.pem
+*.key

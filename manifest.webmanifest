@@ -1,0 +1,14 @@
+{
+  "name": "RSK Licenças",
+  "short_name": "RSK Licenças",
+  "description": "Emissor de licenças do RSK Align",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f8",
+  "theme_color": "#1d3a5f",
+  "icons": [
+    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
